@@ -15,6 +15,13 @@ Demonstrar um fluxo vertical mínimo para registrar componentes, aplicar transi�
 
 ## Conteúdo
 
+## Documentação de referência
+
+- [Dossiê de Continuidade do Projeto](docs/CONTINUIDADE.md) — contexto de retomada, marcos, decisões e instruções para continuar o trabalho em outra conversa.
+- [Documento de Referência Auditado](docs/REFERENCIA_AUDITADA.md) — funcionamento, contrato, critérios de aceitação, cobertura de testes e limites técnicos.
+- [Marco estável — validação inicial](docs/MILESTONE_VALIDACAO_INICIAL.md) — registro documental das evidências de validação.
+
+
 - `state_library.py`: implementação SQLite, verificação de consistência entre eventos e projeção, e verificação do digest de snapshots.
 - `tests/test_state_library.py`: testes automatizados do contrato inicial.
 - `docs/STATE_CONTRACT.md`: contrato de estado e critérios de evidência.
