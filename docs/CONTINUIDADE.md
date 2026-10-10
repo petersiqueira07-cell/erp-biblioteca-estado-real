@@ -12,6 +12,24 @@ Anexe este documento e use a instrução abaixo:
 
 > Vamos continuar o projeto Biblioteca de Estado Real — MVP 0.1. Leia o Dossiê de Continuidade anexado e confira as referências canônicas quando necessário. O B15 v6.3.1 HIGH PERFORMANCE SOFTWARE ENGINEERING HARDENED é o método operacional obrigatório; não o reescreva. Trabalhe com rigor: não confunda intenção, plano, execução, observação, verificação e aprovação. Preserve os marcos registrados, não invente evidências e não crie burocracia adicional sem ganho material. Antes de alterar código, identifique a menor ação suficiente para o objetivo e confirme que está autorizada. O projeto permanece experimental e não aprovado para produção. Primeiro, resuma o estado confirmado e avance somente na tarefa que eu indicar.
 
+## 1A. Atalho de inicialização: `ABRA O TT`
+
+**Finalidade:** permitir ao usuário iniciar a recuperação do contexto do projeto com uma única frase, sem alterar o B15, o código da biblioteca ou as regras de autorização.
+
+Quando o usuário escrever `ABRA O TT` em um chat dentro do projeto TT, o assistente deve:
+
+1. Consultar as instruções do projeto disponíveis e localizar este Dossiê de Continuidade e o B15 v6.3.1 nas fontes acessíveis.
+2. Recuperar o estado documentado, as decisões, os marcos e as referências pertinentes. Consultar o repositório canônico quando isso for necessário para a tarefa ou para confirmar o estado atual.
+3. Distinguir explicitamente fatos verificados nesta conversa de registros históricos. Não afirmar que um arquivo foi lido, um commit confirmado ou um teste executado sem evidência da ação correspondente.
+4. Apresentar um resumo breve do estado recuperado e mencionar apenas limitações de acesso ou incertezas relevantes.
+5. Aguardar a próxima tarefa do usuário. O comando de inicialização, por si só, não autoriza alterações de código, testes, auditorias, commits ou outras tarefas técnicas.
+
+**Limite de disponibilidade:** este contrato documenta o significado do comando, mas não transforma a frase em um comando especial da plataforma. Para que o atalho seja reconhecido de forma consistente em novos chats, copie também a regra resumida abaixo para as instruções do projeto TT, se a interface permitir editar essas instruções. O novo chat ainda precisa ter acesso às fontes referenciadas; se não tiver, deve informar a limitação e não simular uma recuperação bem-sucedida.
+
+### Regra resumida para as instruções do projeto TT
+
+> **Comando `ABRA O TT`:** inicialize o contexto do projeto TT. Consulte o Dossiê de Continuidade e o B15 v6.3.1 disponíveis nas fontes do projeto. Preserve o B15 sem reescrevê-lo. Recupere decisões e marcos, distinguindo registros históricos de verificações atuais. Informe brevemente o estado confirmado e limitações relevantes. Não inicie tarefa técnica nem altere arquivos por causa deste comando; aguarde a próxima instrução do usuário. Nunca afirme ter consultado fontes ou verificado fatos sem tê-lo feito.
+
 ## 2. Propósito e limites
 
 A biblioteca Python registra estados de engenharia de componentes usando SQLite e histórico de eventos. Mantém dimensões independentes de implementação, verificação e liberação. Não é um ERP operacional, não substitui o banco transacional do ERP e não deve armazenar dados financeiros ou pessoais de produção.
