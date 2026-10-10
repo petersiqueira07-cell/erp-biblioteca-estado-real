@@ -61,6 +61,7 @@ Limites essenciais:
 - [Workflow CI](../.github/workflows/tests.yml)
 - [Marco de validação inicial](MILESTONE_VALIDACAO_INICIAL.md)
 - [Documento de Referência Auditado (Markdown)](REFERENCIA_AUDITADA.md)
+- [Protocolo de Fidelidade da Intenção e Continuidade de Engenharia v1.0](PROTOCOLO_FIDELIDADE_INTENCAO_CONTINUIDADE_ENGENHARIA_v1.0.md) — documento complementar para preservar a intenção, distinguir fatos, hipóteses, decisões e execução, e manter continuidade entre conversas. Não altera nem substitui o B15 v6.3.1; sua aplicação prática ainda não foi validada.
 - [Execução GitHub Actions registrada](https://github.com/petersiqueira07-cell/erp-biblioteca-estado-real/actions/runs/38083506942)
 
 ## 4. Marcos e evidências registradas
