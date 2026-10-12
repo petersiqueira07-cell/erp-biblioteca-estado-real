@@ -81,7 +81,7 @@ class CheckpointTests(unittest.TestCase):
         result = self.save()
         resume_path = Path(result["path"]) / "resume.json"
         resume = json.loads(resume_path.read_text(encoding="utf-8"))
-        resume["checkpoint_id"] = "other-checkpoint"
+        resume["next_step"] = "silently changed"
         resume_path.write_text(json.dumps(resume), encoding="utf-8")
         verification = verify_checkpoint(result["path"])
         self.assertFalse(verification["valid"])
