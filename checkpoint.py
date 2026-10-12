@@ -72,6 +72,12 @@ def _manifest_digest(manifest: Mapping[str, Any]) -> str:
     return _digest_json(unsigned)
 
 
+def _resume_digest(resume: Mapping[str, Any]) -> str:
+    unsigned = dict(resume)
+    unsigned.pop("resume_sha256", None)
+    return _digest_json(unsigned)
+
+
 def save_checkpoint(
     library: StateLibrary,
     destination: str | os.PathLike[str],
@@ -198,6 +204,7 @@ def save_checkpoint(
             "next_step": next_step.strip(),
             "instruction": "Reabra este pacote e execute verify_checkpoint antes de continuar.",
         }
+        resume["resume_sha256"] = _resume_digest(resume)
         _atomic_json(resume_path, resume)
         verified = verify_checkpoint(root)
         if not manifest_valid or verified.get("status") != "CHECKPOINT_VALIDADO":
@@ -249,6 +256,10 @@ def verify_checkpoint(directory: str | os.PathLike[str]) -> dict[str, Any]:
         return {"status": "SALVO_MAS_NAO_VALIDADO", "valid": False, "reason": "checkpoint_id_mismatch"}
     if resume.get("manifest_sha256") != manifest.get("manifest_sha256"):
         return {"status": "SALVO_MAS_NAO_VALIDADO", "valid": False, "reason": "resume_manifest_reference_mismatch"}
+    if resume.get("resume_sha256") != _resume_digest(resume):
+        return {"status": "SALVO_MAS_NAO_VALIDADO", "valid": False, "reason": "resume_digest_mismatch"}
+    if resume.get("next_step") != manifest.get("next_step") or resume.get("source_commit") != manifest.get("source_commit"):
+        return {"status": "SALVO_MAS_NAO_VALIDADO", "valid": False, "reason": "resume_manifest_content_mismatch"}
 
     snapshot_check = StateLibrary.verify_snapshot_file(snapshot_path)
     file_digest = _sha256_bytes(snapshot_path.read_bytes())
