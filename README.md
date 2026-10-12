@@ -72,6 +72,37 @@ Nunca use placeholders como evidência de um commit real. O `source_commit` deve
 - Snapshot JSON escrito por substituição atômica, com verificador do digest SHA-256.
 - Verificação explícita de consistência entre o último evento de cada componente e o estado consolidado atual.
 
+
+## Incremento SALVAR O TT — checkpoint verificável
+
+Contrato: [docs/SALVAR_TT_CONTRACT.md](docs/SALVAR_TT_CONTRACT.md).
+
+A primeira fatia oferece uma API Python e uma CLI explícita. Ela **não captura automaticamente uma conversa**: o operador deve preparar um arquivo JSON contendo somente o contexto autorizado a persistir.
+
+Criar um checkpoint:
+
+```bash
+python salvar_tt.py save \
+  --database data/project-state.sqlite3 \
+  --destination checkpoints/tt-2026-10-12-001 \
+  --project-id biblioteca-estado-real \
+  --source-commit <commit-real-inspecionado> \
+  --context-json context.json \
+  --next-step "Revisar a próxima tarefa autorizada"
+```
+
+Verificar um checkpoint já gravado:
+
+```bash
+python salvar_tt.py verify --directory checkpoints/tt-2026-10-12-001
+```
+
+A saída JSON usa os estados `CHECKPOINT_VALIDADO`, `SALVO_MAS_NAO_VALIDADO` ou `BLOQUEADO`. Código de saída: 0 para validação, 2 para persistência não validada/verificação falha e 3 para bloqueio/entrada inválida. O diretório de destino deve ser novo; o comando não sobrescreve checkpoints existentes.
+
+Arquivos gerados: `snapshot.json`, `manifest.json` e `resume.json`. A verificação confere os digests e as referências entre esses artefatos. O snapshot representa o estado técnico da base no momento da exportação; o contexto de conversa é uma entrada separada fornecida pelo operador.
+
+**Limites:** digest não é assinatura externa; o pacote não substitui backup/restore da base; a verificação posterior do pacote confirma os artefatos gravados, não consulta automaticamente o estado vivo do banco nem confirma semanticamente fontes externas. O comando precisa ser executado no ambiente que tenha a base SQLite correta e a versão do código correspondente.
+
 ## Última validação local
 
 A suíte local contém 17 testes automatizados, incluindo falha injetada antes do commit, encerramento abrupto de um processo com transação aberta, concorrência, consistência da projeção e adulteração do snapshot. Consulte o resultado da execução associado à entrega; esses testes não equivalem a uma auditoria de produção.
