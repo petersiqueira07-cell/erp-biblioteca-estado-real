@@ -24,12 +24,13 @@ class CheckpointTests(unittest.TestCase):
         self.temp.cleanup()
 
     def save(self, destination=None, **kwargs):
+        context = kwargs.pop("context", {"last_action": "test", "facts": ["explicit input"]})
         return save_checkpoint(
             self.library,
             destination or (self.root / "checkpoint"),
             project_id="biblioteca-estado-real",
             source_commit="abc123",
-            context={"last_action": "test", "facts": ["explicit input"]},
+            context=context,
             next_step="Review checkpoint",
             **kwargs,
         )
