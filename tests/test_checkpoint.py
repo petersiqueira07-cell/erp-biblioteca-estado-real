@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from checkpoint import CheckpointError, save_checkpoint, verify_checkpoint
+from salvar_tt import main as cli_main
 from state_library import StateLibrary
 
 
@@ -89,6 +90,11 @@ class CheckpointTests(unittest.TestCase):
     def test_context_must_be_json_serializable(self):
         with self.assertRaises(CheckpointError):
             self.save(context={"not_json": object()})
+
+    def test_cli_verify_returns_success_for_valid_checkpoint(self):
+        result = self.save()
+        exit_code = cli_main(["verify", "--directory", result["path"]])
+        self.assertEqual(exit_code, 0)
 
 
 if __name__ == "__main__":
