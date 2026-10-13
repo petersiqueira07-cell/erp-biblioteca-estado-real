@@ -14,22 +14,36 @@ Anexe este documento e use a instrução abaixo:
 
 ## 1A. Atalho de inicialização: `ABRA O TT`
 
-**Finalidade:** permitir ao usuário iniciar a recuperação do contexto do projeto com uma única frase, sem alterar o B15, o código da biblioteca ou as regras de autorização.
+**Finalidade:** recuperar contexto de forma concisa e operacionalmente precisa, sem alterar o B15, o código da biblioteca ou as regras de autorização.
 
 Quando o usuário escrever `ABRA O TT` em um chat dentro do projeto TT, o assistente deve:
 
 1. Consultar as instruções do projeto disponíveis e localizar este Dossiê de Continuidade e o B15 v6.3.1 nas fontes acessíveis.
 2. Recuperar o estado documentado, as decisões, os marcos e as referências pertinentes. Consultar o repositório canônico quando isso for necessário para a tarefa ou para confirmar o estado atual.
-3. Distinguir explicitamente fatos verificados nesta conversa de registros históricos. Não afirmar que um arquivo foi lido, um commit confirmado ou um teste executado sem evidência da ação correspondente.
-4. Apresentar um resumo breve do estado recuperado e mencionar apenas limitações de acesso ou incertezas relevantes.
-5. Aguardar a próxima tarefa do usuário. O comando de inicialização, por si só, não autoriza alterações de código, testes, auditorias, commits ou outras tarefas técnicas.
+3. Distinguir explicitamente fatos verificados nesta conversa de registros históricos, inferências e pontos ainda não verificados. Não afirmar que um arquivo foi lido, um commit confirmado ou um teste executado sem evidência da ação correspondente.
+4. Apresentar um resumo breve das fontes efetivamente consultadas, do estado recuperado e apenas das limitações ou incertezas relevantes.
+5. Conferir as pendências e a próxima ação registrada contra os resultados efetivamente observados nesta sessão. Classificar cada pendência relevante como **concluída nesta sessão**, **parcialmente concluída**, **pendente** ou **histórico não revalidado**.
+6. Se a próxima ação registrada tiver sido executada total ou parcialmente, explicitar o que a evidência permite considerar concluído e o que continua pendente. Não reiniciar etapas concluídas sem motivo material; retomar do último ponto sustentado por evidências.
+7. Indicar a próxima ação permitida, preservando decisões, restrições e limites de autorização. Se a ação exigir autorização ainda não concedida, aguardar essa autorização.
+8. Aguardar a próxima tarefa do usuário. O comando de inicialização, por si só, não autoriza alterações de código, testes, auditorias, commits ou outras tarefas técnicas.
+
+### Critério de conclusão da CIR
+
+A Conferência de Integridade da Retomada (CIR) estará operacionalmente concluída quando a resposta identificar, na medida em que as fontes acessíveis permitam:
+
+- as fontes efetivamente consultadas e as limitações de acesso relevantes;
+- o estado atual verificado, os registros históricos e as inferências, sem misturá-los;
+- as decisões, restrições e marcos que precisam ser preservados, incluindo a obrigatoriedade do B15 v6.3.1;
+- para cada pendência material, o resultado da sessão: concluída, parcialmente concluída, pendente ou histórico não revalidado;
+- a correspondência entre a próxima ação registrada e o que realmente ocorreu, incluindo a próxima ação permitida.
+
+A conclusão da CIR significa que o estado de retomada e o próximo passo estão claros dentro das evidências disponíveis. **Não** significa, por si só, que o checkpoint, o repositório ou o projeto estejam integralmente validados. Uma inspeção de arquivos não pode ser descrita como execução do verificador original; uma verificação parcial não equivale à validação integral da cadeia de eventos. Se uma fonte necessária estiver inacessível, declarar a limitação e concluir apenas o escopo que as evidências sustentam. Não criar novas auditorias, testes ou artefatos sem benefício material demonstrável.
 
 **Limite de disponibilidade:** este contrato documenta o significado do comando, mas não transforma a frase em um comando especial da plataforma. Para que o atalho seja reconhecido de forma consistente em novos chats, copie também a regra resumida abaixo para as instruções do projeto TT, se a interface permitir editar essas instruções. O novo chat ainda precisa ter acesso às fontes referenciadas; se não tiver, deve informar a limitação e não simular uma recuperação bem-sucedida.
 
 ### Regra resumida para as instruções do projeto TT
 
-> **Comando `ABRA O TT`:** inicialize o contexto do projeto TT. Consulte o Dossiê de Continuidade e o B15 v6.3.1 disponíveis nas fontes do projeto. Preserve o B15 sem reescrevê-lo. Recupere decisões e marcos, distinguindo registros históricos de verificações atuais. Informe brevemente o estado confirmado e limitações relevantes. Não inicie tarefa técnica nem altere arquivos por causa deste comando; aguarde a próxima instrução do usuário. Nunca afirme ter consultado fontes ou verificado fatos sem tê-lo feito.
-
+> **Comando `ABRA O TT`:** inicialize o contexto consultando o Dossiê de Continuidade e o B15 v6.3.1 disponíveis. Preserve o B15 sem reescrevê-lo. Informe as fontes consultadas, o estado confirmado, registros históricos, decisões, restrições e limitações relevantes. Classifique pendências como concluídas nesta sessão, parcialmente concluídas, pendentes ou históricas não revalidadas; compare a próxima ação registrada com o que realmente ocorreu e retome do último ponto sustentado por evidências, sem reiniciar etapas sem motivo material. Indique a próxima ação permitida. O comando não autoriza trabalho técnico; aguarde a próxima instrução. Nunca afirme consultas ou verificações sem evidência.
 ## 2. Propósito e limites
 
 A biblioteca Python registra estados de engenharia de componentes usando SQLite e histórico de eventos. Mantém dimensões independentes de implementação, verificação e liberação. Não é um ERP operacional, não substitui o banco transacional do ERP e não deve armazenar dados financeiros ou pessoais de produção.
