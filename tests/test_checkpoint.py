@@ -102,6 +102,7 @@ class CheckpointTests(unittest.TestCase):
             "--destination", str(destination),
             "--project-id", "biblioteca-estado-real",
             "--source-commit", "a" * 40,
+            "--repository", str(self.root),
             "--context-json", str(context_file),
             "--next-step", "continue",
         ])
