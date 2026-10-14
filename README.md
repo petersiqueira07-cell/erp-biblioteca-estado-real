@@ -87,6 +87,7 @@ python salvar_tt.py save \
   --destination checkpoints/tt-2026-10-12-001 \
   --project-id biblioteca-estado-real \
   --source-commit <commit-real-inspecionado> \
+  --repository . \
   --context-json context.json \
   --next-step "Revisar a próxima tarefa autorizada"
 ```
