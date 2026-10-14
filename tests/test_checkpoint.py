@@ -130,6 +130,23 @@ class CheckpointTests(unittest.TestCase):
         self.assertEqual(exit_code, 3)
         self.assertFalse(destination.exists())
 
+    def test_cli_save_rejects_incomplete_source_commit(self):
+        context_file = self.root / "context.json"
+        context_file.write_text(json.dumps({"fact": "explicit"}), encoding="utf-8")
+        destination = self.root / "new-checkpoint"
+        exit_code = cli_main([
+            "save",
+            "--database", str(self.db),
+            "--destination", str(destination),
+            "--project-id", "biblioteca-estado-real",
+            "--source-commit", "abc123",
+            "--repository", str(self.root),
+            "--context-json", str(context_file),
+            "--next-step", "continue",
+        ])
+        self.assertEqual(exit_code, 3)
+        self.assertFalse(destination.exists())
+
     def test_cli_verify_returns_success_for_valid_checkpoint(self):
         result = self.save()
         exit_code = cli_main(["verify", "--directory", result["path"]])
