@@ -64,10 +64,23 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
             return 0 if result.get("status") == "CHECKPOINT_VALIDADO" else 2
 
+        database_path = Path(args.database).expanduser()
+        if not database_path.exists():
+            raise CheckpointError("base_sqlite_inexistente; salvamento_bloqueado_para_evitar_criar_base_vazia")
+        if not database_path.is_file():
+            raise CheckpointError("caminho_da_base_nao_e_arquivo")
+        try:
+            with database_path.open("rb") as database_file:
+                sqlite_header = database_file.read(16)
+        except OSError as exc:
+            raise CheckpointError("base_sqlite_ilegivel") from exc
+        if sqlite_header != b"SQLite format 3\\x00":
+            raise CheckpointError("arquivo_nao_tem_cabecalho_sqlite_valido")
+
         context = _load_json_object(args.context_json)
         decisions = _load_json_list(args.decisions_json)
         pending = _load_json_list(args.pending_json)
-        library = StateLibrary(args.database)
+        library = StateLibrary(database_path)
         result = save_checkpoint(
             library,
             args.destination,
