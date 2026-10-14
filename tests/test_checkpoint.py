@@ -91,6 +91,43 @@ class CheckpointTests(unittest.TestCase):
         with self.assertRaises(CheckpointError):
             self.save(context={"not_json": object()})
 
+    def test_cli_save_missing_database_blocks_without_creating_database(self):
+        missing_db = self.root / "missing" / "state.sqlite3"
+        context_file = self.root / "context.json"
+        context_file.write_text(json.dumps({"fact": "explicit"}), encoding="utf-8")
+        destination = self.root / "new-checkpoint"
+        exit_code = cli_main([
+            "save",
+            "--database", str(missing_db),
+            "--destination", str(destination),
+            "--project-id", "biblioteca-estado-real",
+            "--source-commit", "a" * 40,
+            "--context-json", str(context_file),
+            "--next-step", "continue",
+        ])
+        self.assertEqual(exit_code, 3)
+        self.assertFalse(missing_db.exists())
+        self.assertFalse(missing_db.parent.exists())
+        self.assertFalse(destination.exists())
+
+    def test_cli_save_rejects_non_sqlite_file(self):
+        invalid_db = self.root / "not-sqlite.db"
+        invalid_db.write_text("not a sqlite database", encoding="utf-8")
+        context_file = self.root / "context.json"
+        context_file.write_text(json.dumps({"fact": "explicit"}), encoding="utf-8")
+        destination = self.root / "new-checkpoint"
+        exit_code = cli_main([
+            "save",
+            "--database", str(invalid_db),
+            "--destination", str(destination),
+            "--project-id", "biblioteca-estado-real",
+            "--source-commit", "a" * 40,
+            "--context-json", str(context_file),
+            "--next-step", "continue",
+        ])
+        self.assertEqual(exit_code, 3)
+        self.assertFalse(destination.exists())
+
     def test_cli_verify_returns_success_for_valid_checkpoint(self):
         result = self.save()
         exit_code = cli_main(["verify", "--directory", result["path"]])
