@@ -87,6 +87,7 @@ python salvar_tt.py save \
   --destination checkpoints/tt-2026-10-12-001 \
   --project-id biblioteca-estado-real \
   --source-commit <commit-real-inspecionado> \
+  --repository . \
   --context-json context.json \
   --next-step "Revisar a próxima tarefa autorizada"
 ```
@@ -97,7 +98,7 @@ Verificar um checkpoint já gravado:
 python salvar_tt.py verify --directory checkpoints/tt-2026-10-12-001
 ```
 
-A saída JSON usa os estados `CHECKPOINT_VALIDADO`, `SALVO_MAS_NAO_VALIDADO` ou `BLOQUEADO`. Código de saída: 0 para validação, 2 para persistência não validada/verificação falha e 3 para bloqueio/entrada inválida. O diretório de destino deve ser novo; o comando não sobrescreve checkpoints existentes.
+A saída JSON usa os estados `CHECKPOINT_VALIDADO`, `SALVO_MAS_NAO_VALIDADO` ou `BLOQUEADO`. Código de saída: 0 para validação, 2 para persistência não validada/verificação falha e 3 para bloqueio/entrada inválida. O caminho da base deve apontar para um arquivo SQLite existente; o comando bloqueia base ausente ou arquivo sem cabeçalho SQLite. `--repository` é obrigatório: o comando exige SHA completo de 40 caracteres e confirma que o commit existe no repositório Git informado. Isso valida existência, não prova sozinho que o commit corresponde semanticamente à base. O diretório de destino deve ser novo; o comando não sobrescreve checkpoints existentes.
 
 Arquivos gerados: `snapshot.json`, `manifest.json` e `resume.json`. A verificação confere os digests e as referências entre esses artefatos. O snapshot representa o estado técnico da base no momento da exportação; o contexto de conversa é uma entrada separada fornecida pelo operador.
 

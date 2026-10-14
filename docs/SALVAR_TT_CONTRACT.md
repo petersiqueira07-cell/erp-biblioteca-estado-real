@@ -12,7 +12,7 @@ O checkpoint descreve o estado de engenharia persistido e o contexto de continui
 
 ## 2. Fluxo obrigatório
 
-1. Validar entradas obrigatórias: diretório de destino, identificador do projeto, commit de origem e contexto explícito.
+1. Validar entradas obrigatórias: diretório de destino, identificador do projeto, commit de origem e contexto explícito. Na CLI, exigir uma base SQLite existente com cabeçalho válido e `--repository` apontando para o repositório Git; validar SHA completo e existência do commit nesse repositório.
 2. Executar `verify_integrity()` e `verify_projection_consistency()`.
 3. Exportar snapshot usando `export_snapshot()`.
 4. Verificar o snapshot com `verify_snapshot_file()` e relê-lo do disco.
@@ -69,4 +69,4 @@ O histórico de eventos, a projeção e o snapshot são confrontados tecnicament
 
 ## 8. Limite de integração
 
-A primeira fatia é uma API Python explícita (`save_checkpoint` / `verify_checkpoint`), não um comando de linguagem natural autônomo dentro do ChatGPT. O acionamento conversacional requer um adaptador/integrador real, fora do escopo desta fatia.
+A API Python (`save_checkpoint` / `verify_checkpoint`) continua explícita. A proteção de caminho e a validação de proveniência descritas acima aplicam-se à CLI; a API não consegue confirmar a existência do commit sem integração explícita com o repositório. O acionamento conversacional requer um adaptador/integrador real, fora do escopo desta fatia.
