@@ -77,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
                 sqlite_header = database_file.read(16)
         except OSError as exc:
             raise CheckpointError("base_sqlite_ilegivel") from exc
-        if sqlite_header != b"SQLite format 3\\x00":
+        if sqlite_header != b"SQLite format 3\x00":
             raise CheckpointError("arquivo_nao_tem_cabecalho_sqlite_valido")
 
         source_commit = args.source_commit.strip()
