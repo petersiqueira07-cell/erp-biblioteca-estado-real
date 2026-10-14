@@ -104,7 +104,7 @@ def main(argv: list[str] | None = None) -> int:
             library,
             args.destination,
             project_id=args.project_id,
-            source_commit=args.source_commit,
+            source_commit=source_commit,
             context=context,
             decisions=decisions,
             pending_items=pending,
